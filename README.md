@@ -228,6 +228,7 @@
 <div class="hero">
   <div class="hero-badge">Trusted study abroad guidance</div>
   <h1>Your personalised <span>university roadmap</span>, built around your profile</h1>
+ https://docs.google.com/forms/d/e/1FAIpQLSf4MutCyoF6qawDlKqSdmW9t1sWHntIlYbEWCvcsogPQ3sJtg/viewform?usp=dialog
   <p>Share your academic details — CGPA, qualifications, preferred country, and budget — and receive a curated plan of universities you can realistically get into, with deadlines, scholarships, and visa guidance.</p>
   <div class="hero-btns">
     <button class="btn-primary" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Submit my profile</button>
