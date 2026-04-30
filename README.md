@@ -347,7 +347,7 @@
 
 <div class="divider"></div>
 
-<!-- APPLY FORM -->
+<!-- APPLY FORM -->https://forms.gle/nt1ESJieKTgAKPXWA
 <div class="form-section" id="apply">
   <div class="form-wrap">
     <div class="sec-title">Submit your profile</div>
