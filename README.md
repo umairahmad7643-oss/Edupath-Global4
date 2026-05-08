@@ -228,7 +228,6 @@
 <div class="hero">
   <div class="hero-badge">Trusted study abroad guidance</div>
   <h1>Your personalised <span>university roadmap</span>, built around your profile</h1>
- https://docs.google.com/forms/d/e/1FAIpQLSf4MutCyoF6qawDlKqSdmW9t1sWHntIlYbEWCvcsogPQ3sJtg/viewform?usp=dialog
   <p>Share your academic details — CGPA, qualifications, preferred country, and budget — and receive a curated plan of universities you can realistically get into, with deadlines, scholarships, and visa guidance.</p>
   <div class="hero-btns">
     <button class="btn-primary" onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})">Submit my profile</button>
@@ -347,31 +346,36 @@
 
 <div class="divider"></div>
 
-<!-- APPLY FORM -->https://forms.gle/nt1ESJieKTgAKPXWA
+<!-- APPLY FORM -->
 <div class="form-section" id="apply">
   <div class="form-wrap">
     <div class="sec-title">Submit your profile</div>
     <div class="sec-sub">Fill in your details and we'll build a personalised roadmap within 48 hours</div>
     <div class="form-card">
-      <div class="form-progress" id="form-progress"></div>
-      <div id="success-msg" class="success-msg">
+      <div id="success-msg" class="success-msg" style="display:none;">
         <div class="success-icon">✓</div>
         <h3>Profile submitted!</h3>
         <p>Thank you! We'll review your details and send your personalised roadmap within 48 hours.</p>
       </div>
-      <div id="form-body">
+      <form id="apply-form" action="https://formspree.io/f/maqagezr" method="POST" onsubmit="handleSubmit(event)">
+        <input type="hidden" name="_replyto" value="umairahmad7643@gmail.com" />
+        <input type="hidden" name="_subject" value="New EduPath Global Student Profile" />
+
+        <!-- Step 1: Basic Info -->
         <div class="form-step visible" data-step="0">
           <div class="fs-title">Basic information</div>
           <div class="field-group">
-            <div class="field"><label>Full name</label><input type="text" placeholder="e.g. Ahmed Khan" /></div>
-            <div class="field"><label>Email address</label><input type="email" placeholder="you@email.com" /></div>
+            <div class="field"><label>Full name *</label><input type="text" name="Full Name" placeholder="e.g. Ahmed Khan" required /></div>
+            <div class="field"><label>Email address *</label><input type="email" name="Email" placeholder="you@email.com" required /></div>
           </div>
         </div>
+
+        <!-- Step 2: Academic Background -->
         <div class="form-step" data-step="1">
           <div class="fs-title">Academic background</div>
           <div class="field-group">
-            <div class="field"><label>Qualification</label>
-              <select>
+            <div class="field"><label>Qualification *</label>
+              <select name="Qualification" required>
                 <option value="">Select...</option>
                 <option>Matric / O-Levels</option>
                 <option>FSc / A-Levels</option>
@@ -380,83 +384,141 @@
                 <option>Other</option>
               </select>
             </div>
-            <div class="field"><label>CGPA / Grades / Percentage</label><input type="text" placeholder="e.g. 3.5/4.0 or 85%" /></div>
+            <div class="field"><label>CGPA / Grades / Percentage *</label><input type="text" name="CGPA/Grades" placeholder="e.g. 3.5/4.0 or 85%" required /></div>
           </div>
           <div class="field-group">
-            <div class="field"><label>Main subjects / field of study</label><input type="text" placeholder="e.g. Computer Science, Business" /></div>
+            <div class="field"><label>Main subjects / field of study *</label><input type="text" name="Main Subjects" placeholder="e.g. Computer Science, Business" required /></div>
           </div>
         </div>
+
+        <!-- Step 3: Study Preferences -->
         <div class="form-step" data-step="2">
           <div class="fs-title">Study preferences</div>
           <div class="field-group">
-            <div class="field"><label>Preferred country</label>
-              <select>
+            <div class="field"><label>Preferred country *</label>
+              <select name="Preferred Country" required>
                 <option value="">Select...</option>
-                <option>Germany</option><option>Japan</option><option>USA</option>
-                <option>UK</option><option>Australia</option><option>Canada</option>
-                <option>South Korea</option><option>China</option><option>France</option>
-                <option>Sweden</option><option>Switzerland</option><option>Other</option>
+                <option>🇺🇸 USA</option>
+                <option>🇨🇦 Canada</option>
+                <option>🇬🇧 UK</option>
+                <option>🇩🇪 Germany</option>
+                <option>🇯🇵 Japan</option>
+                <option>🇰🇷 South Korea</option>
+                <option>🇨🇳 China</option>
+                <option>🇫🇷 France</option>
+                <option>🇸🇪 Sweden</option>
+                <option>🇨🇭 Switzerland</option>
+                <option>Other</option>
               </select>
             </div>
-            <div class="field"><label>Preferred field / program</label><input type="text" placeholder="e.g. Engineering, MBA" /></div>
+            <div class="field"><label>Preferred field / program *</label><input type="text" name="Preferred Program" placeholder="e.g. Engineering, MBA" required /></div>
           </div>
           <div class="field-group">
-            <div class="field"><label>Preferred intake</label>
-              <select>
-                <option value="">Select...</option>
-                <option>Fall (Sep–Oct)</option>
-                <option>Spring (Jan–Feb)</option>
-                <option>Either</option>
+            <div class="field"><label>Preferred intake *</label>
+              <select name="Preferred Intake" id="intake-select" required onchange="toggleCustomIntake(this)">
+                <option value="">Select country first, then choose intake...</option>
+                <optgroup label="🇺🇸 USA">
+                  <option>USA – Fall (Aug–Sept) [MAIN]</option>
+                  <option>USA – Spring (Jan)</option>
+                  <option>USA – Summer (May) [Limited]</option>
+                </optgroup>
+                <optgroup label="🇨🇦 Canada">
+                  <option>Canada – Fall (Sept) [MAIN]</option>
+                  <option>Canada – Winter (Jan)</option>
+                  <option>Canada – Summer (May)</option>
+                </optgroup>
+                <optgroup label="🇬🇧 UK">
+                  <option>UK – Autumn (Sept–Oct) [MAIN]</option>
+                  <option>UK – Winter (Jan–Feb)</option>
+                  <option>UK – Summer (May) [Limited]</option>
+                </optgroup>
+                <optgroup label="🇩🇪 Germany">
+                  <option>Germany – Winter (Oct) [MAIN]</option>
+                  <option>Germany – Summer (April)</option>
+                </optgroup>
+                <optgroup label="🇯🇵 Japan">
+                  <option>Japan – April [MAIN]</option>
+                  <option>Japan – September/October</option>
+                </optgroup>
+                <optgroup label="🇰🇷 South Korea">
+                  <option>South Korea – Spring (March) [MAIN]</option>
+                  <option>South Korea – Fall (September)</option>
+                </optgroup>
+                <optgroup label="🇨🇳 China">
+                  <option>China – Autumn (Sept) [MAIN]</option>
+                  <option>China – Spring (Feb–March)</option>
+                </optgroup>
+                <optgroup label="🇫🇷 France">
+                  <option>France – Fall (Sept) [MAIN]</option>
+                  <option>France – Spring (Jan) [Limited]</option>
+                </optgroup>
+                <optgroup label="🇸🇪 Sweden">
+                  <option>Sweden – Autumn (Aug–Sept) [MAIN]</option>
+                  <option>Sweden – Spring (Jan) [Very Limited]</option>
+                </optgroup>
+                <optgroup label="🇨🇭 Switzerland">
+                  <option>Switzerland – Fall (Sept) [MAIN]</option>
+                  <option>Switzerland – Spring (Feb) [Limited]</option>
+                </optgroup>
+                <option value="other">Other / Not sure (specify below)</option>
               </select>
             </div>
+          </div>
+          <div class="field-group" id="custom-intake-wrap" style="display:none;">
+            <div class="field"><label>Specify your intake</label><input type="text" name="Custom Intake" placeholder="e.g. Spring 2026" /></div>
           </div>
         </div>
+
+        <!-- Step 4: Constraints -->
         <div class="form-step" data-step="3">
-          <div class="fs-title">Constraints</div>
+          <div class="fs-title">Budget &amp; language</div>
           <div class="field-group">
-            <div class="field"><label>Budget (PKR per year)</label>
-              <select>
+            <div class="field"><label>Budget (PKR per year) *</label>
+              <select name="Budget" required>
                 <option value="">Select...</option>
                 <option>Under PKR 500K</option>
-                <option>PKR 500K – 1M</option>
-                <option>PKR 1M – 2M</option>
-                <option>PKR 2M+</option>
+                <option>PKR 500K – 1 Million</option>
+                <option>PKR 1 Million – 2 Million</option>
+                <option>PKR 2 Million+</option>
                 <option>Seeking full scholarship</option>
               </select>
             </div>
-            <div class="field"><label>Language test status</label>
-              <select>
+            <div class="field"><label>Language test status *</label>
+              <select name="Language Test Status" required onchange="toggleScoreField(this)">
                 <option value="">Select...</option>
-                <option>IELTS taken — please specify score below</option>
-                <option>Duolingo taken</option>
-                <option>TOEFL taken</option>
-                <option>Not yet taken</option>
-                <option>Planning to take</option>
+                <option value="IELTS taken">IELTS taken — I'll state my score below</option>
+                <option value="Duolingo taken">Duolingo taken</option>
+                <option value="TOEFL taken">TOEFL taken</option>
+                <option value="Not yet taken">Not yet taken</option>
+                <option value="Planning to take">Planning to take</option>
               </select>
             </div>
           </div>
-          <div class="field-group">
-            <div class="field"><label>Language test score (if taken)</label><input type="text" placeholder="e.g. IELTS 6.5" /></div>
+          <div class="field-group" id="score-field-wrap" style="display:none;">
+            <div class="field"><label>Language test score</label><input type="text" name="Language Test Score" placeholder="e.g. IELTS 6.5, TOEFL 90" /></div>
           </div>
         </div>
+
+        <!-- Step 5: Additional Info -->
         <div class="form-step" data-step="4">
           <div class="fs-title">Additional information</div>
           <div class="field-group">
-            <div class="field"><label>Extracurriculars / achievements</label><textarea placeholder="e.g. debate competitions, volunteer work, internships, awards..."></textarea></div>
+            <div class="field"><label>Extracurriculars / achievements</label><textarea name="Extracurriculars" placeholder="e.g. debate competitions, volunteer work, internships, awards..."></textarea></div>
           </div>
           <div class="field-group">
-            <div class="field"><label>Additional notes or special requirements</label><textarea placeholder="Anything else we should know about your situation or goals..."></textarea></div>
+            <div class="field"><label>Additional notes or special requirements</label><textarea name="Additional Notes" placeholder="Anything else we should know about your situation or goals..."></textarea></div>
           </div>
-          <button class="submit-btn" onclick="submitForm()">Submit my profile — get my roadmap</button>
+          <button type="submit" class="submit-btn">Submit my profile — get my roadmap</button>
         </div>
+
         <div class="form-nav">
           <span class="step-indicator" id="step-indicator">Step 1 of 5</span>
           <div class="form-nav-btns">
-            <button class="btn-back" id="btn-back" onclick="navForm(-1)" style="display:none">Back</button>
-            <button class="btn-next" id="btn-next" onclick="navForm(1)">Next</button>
+            <button type="button" class="btn-back" id="btn-back" onclick="navForm(-1)" style="display:none">Back</button>
+            <button type="button" class="btn-next" id="btn-next" onclick="navForm(1)">Next</button>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </div>
@@ -539,26 +601,50 @@ function renderSchol() {
 renderFilters(); renderSchol();
 
 // FORM
-const stepLabels = ["Basic info", "Academics", "Preferences", "Constraints", "Additional"];
+const stepLabels = ["Basic info", "Academics", "Preferences", "Budget & Language", "Additional"];
 let currentStep = 0;
-function renderProgress() {
-  document.getElementById('form-progress').innerHTML = stepLabels.map((l, i) =>
-    `<div class="fp${i === currentStep ? ' active' : i < currentStep ? ' done' : ''}" onclick="goStep(${i})">${l}</div>`
-  ).join('');
+function goStep(n) {
+  document.querySelectorAll('.form-step').forEach((el, i) => el.classList.toggle('visible', i === n));
+  currentStep = n;
   document.getElementById('step-indicator').textContent = `Step ${currentStep + 1} of ${stepLabels.length}`;
   document.getElementById('btn-back').style.display = currentStep > 0 ? '' : 'none';
   document.getElementById('btn-next').style.display = currentStep < stepLabels.length - 1 ? '' : 'none';
 }
-function goStep(n) {
-  document.querySelectorAll('.form-step').forEach((el, i) => el.classList.toggle('visible', i === n));
-  currentStep = n; renderProgress();
-}
 function navForm(dir) { goStep(Math.max(0, Math.min(stepLabels.length - 1, currentStep + dir))); }
-function submitForm() {
-  document.getElementById('form-body').style.display = 'none';
-  document.getElementById('success-msg').style.display = 'block';
+function toggleScoreField(sel) {
+  const wrap = document.getElementById('score-field-wrap');
+  const show = ['IELTS taken','Duolingo taken','TOEFL taken'].includes(sel.value);
+  wrap.style.display = show ? '' : 'none';
 }
-renderProgress();
+function toggleCustomIntake(sel) {
+  document.getElementById('custom-intake-wrap').style.display = sel.value === 'other' ? '' : 'none';
+}
+async function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('apply-form');
+  const btn = form.querySelector('.submit-btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (res.ok) {
+      form.style.display = 'none';
+      const msg = document.getElementById('success-msg');
+      msg.style.display = 'block';
+    } else {
+      btn.textContent = 'Something went wrong — try again';
+      btn.disabled = false;
+    }
+  } catch(err) {
+    btn.textContent = 'Network error — try again';
+    btn.disabled = false;
+  }
+}
+goStep(0);
 </script>
 
 <div id="cert-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;padding:2rem;">
